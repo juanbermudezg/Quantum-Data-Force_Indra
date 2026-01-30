@@ -139,7 +139,7 @@ if df is not None:
             st.error(f"Error en la predicción: {e}")
             st.info("Asegúrate de que el modelo v3 esté correctamente cargado.")
     else:
-        st.warning(" No se detectó el archivo 'modelo_energia_v3(2).pkl' en la carpeta /modelos.")
+        st.warning(" No se detectó el archivo 'modelo_energia_v3.pkl' en la carpeta /modelos.")
 
 else:
     st.error(" No se pudo conectar con la base de datos en /datos/consumos_uptc.zip")
