@@ -5,15 +5,13 @@ import os
 import joblib
 
 # -----------------------------------------------------------------------------
-# 1. CONFIGURACIÓN DEL DASHBOARD
-# -----------------------------------------------------------------------------
+# 1. CONFIGURACIÓN DE LA PAG
 st.set_page_config(
     page_title="Quantum Data Force | UPTC",
     page_icon="⚡",
     layout="wide"
 )
 
-# Estilo personalizado para las métricas
 st.markdown("""
     <style>
     [data-testid="stMetricValue"] { font-size: 28px; color: #F1C40F; }
@@ -23,7 +21,6 @@ st.markdown("""
 
 # -----------------------------------------------------------------------------
 # 2. FUNCIONES DE CARGA  
-# -----------------------------------------------------------------------------
 @st.cache_data
 def load_data():
     base_path = os.path.dirname(__file__)
@@ -31,7 +28,6 @@ def load_data():
     try:
         df = pd.read_csv(file_path, compression='zip')
         df['timestamp'] = pd.to_datetime(df['timestamp'])
-        # Aseguramos que los códigos de sede sean consistentes con el entrenamiento
         df['sede_n'] = df['sede'].astype('category').cat.codes
         return df
     except Exception as e:
@@ -62,10 +58,8 @@ if df is not None:
 
     # -----------------------------------------------------------------------------
     # 3. VISUALIZACIÓN HISTÓRICA (2018 - 2025)
-    # -----------------------------------------------------------------------------
     st.subheader(f" Análisis de Tendencia Total: {sede_selec}")
     
-    # Agrupación dinámica para evitar lentitud
     rule = 'M' if vista_h == "Mensual" else 'D'
     df_hist = df_sede.set_index('timestamp').select_dtypes(include=['number']).resample(rule).mean().reset_index()
 
@@ -78,10 +72,9 @@ if df is not None:
 
     # -----------------------------------------------------------------------------
     # 4. SIMULADOR PREDICTIVO IA (v3)
-    # -----------------------------------------------------------------------------
     st.markdown("---")
     st.header(" Simulador de Predicción IA")
-    st.markdown("Proyección detallada por sector, lugar y tiempo utilizando el Modelo v3.")
+    st.markdown("Proyección detallada por sector, lugar y tiempo utilizando el Modelo v3(2).")
 
     if model is not None:
         try:
@@ -92,7 +85,7 @@ if df is not None:
                 sectores = ["Comedores", "Salones", "Laboratorios", "Auditorios", "Oficinas"]
                 sector_p = st.selectbox("Sector Específico", sectores)
                 
-                # Selector de Fecha (Afecta Mes y Día de la semana)
+                # Selector de Fecha
                 fecha_p = st.date_input(" Selecciona el día a simular", value=pd.to_datetime("2025-06-10"))
                 
                 # Selector de Hora para consulta escrita
