@@ -87,6 +87,7 @@ if not df.empty:
         st.warning("No hay datos para el rango seleccionado.")
 
 #------------------------------------------------------------------------------------------
+#predecir IA
 import joblib
 
 # predicción
