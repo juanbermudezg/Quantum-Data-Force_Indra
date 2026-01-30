@@ -92,7 +92,7 @@ import joblib
 
 # predicción
 st.markdown("---")
-st.header(" Simulador de Proyección Energética")
+st.header(" Predicción de Proyección Energética IA")
 
 try:
     # Cargar el modelo
