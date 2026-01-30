@@ -13,6 +13,8 @@ st.markdown("**Estado del Sistema:** En línea | **Fuente de Datos:** Repositori
 @st.cache_data
 def cargar_datos():
     ruta_zip = os.path.join(os.path.dirname(__file__), '../datos/consumos_uptc.zip')
+
+    # limpieza de datos
     
     try:
         df = pd.read_csv(ruta_zip, compression='zip')
