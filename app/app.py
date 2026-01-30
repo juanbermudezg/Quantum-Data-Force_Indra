@@ -3,10 +3,10 @@ import pandas as pd
 import plotly.express as px
 import os
 
-# --- 1. CONFIGURACIÓN DE LA PÁGINA 
+# config pag
 st.set_page_config(page_title="Quantum Data Force", layout="wide", page_icon="⚡")
 
-st.title("⚡ Monitor Energético UPTC - IA Minds 2026")
+st.title(" Monitor Energético UPTC - IA Minds 2026")
 st.markdown("**Estado del Sistema:** En línea | **Fuente de Datos:** Repositorio Seguro")
 
 # cargar zip a csv
@@ -68,7 +68,7 @@ if not df.empty:
     # para seleccionar fechas
     with st.sidebar:
         st.markdown("---")
-        st.header("📅 Rango de Análisis")
+        st.header(" Rango de Análisis")
         fecha_inicio = st.date_input("Fecha Inicio", df_sede['timestamp'].min())
         fecha_fin = st.date_input("Fecha Fin", df_sede['timestamp'].max())
 
