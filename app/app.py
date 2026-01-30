@@ -22,14 +22,14 @@ def load_data():
 df = load_data()
 
 if df is not None:
-    st.title("⚡ Dashboard Energético UPTC (2018-2025)")
+    st.title(" Dashboard Energético UPTC (2018-2025)")
     
     # SIDEBAR
     sede_selec = st.sidebar.selectbox("Selecciona Sede:", df['sede'].unique())
     df_sede = df[df['sede'] == sede_selec]
 
     # GRÁFICA HISTÓRICA TOTAL
-    st.subheader(f"📈 Tendencia Histórica: {sede_selec}")
+    st.subheader(f" Tendencia Histórica: {sede_selec}")
     df_hist = df_sede.set_index('timestamp').resample('M').mean().reset_index()
     fig_h = px.line(df_hist, x='timestamp', y='energia_total_kwh', color_discrete_sequence=['#1ABC9C'])
     fig_h.update_xaxes(rangeslider_visible=True)
