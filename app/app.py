@@ -85,3 +85,50 @@ if not df.empty:
         st.plotly_chart(fig, use_container_width=True)
     else:
         st.warning("No hay datos para el rango seleccionado.")
+
+#------------------------------------------------------------------------------------------
+import joblib
+
+# predicción
+st.markdown("---")
+st.header("Simulador de Predicción IA")
+st.write("Ajusta los parámetros para predecir el consumo energético usando el modelo entrenado.")
+
+# carga de modelo
+@st.cache_resource
+def cargar_modelo():
+    base_path = os.path.dirname(__file__)
+    modelo_path = os.path.join(base_path, '../modelos/modelo_energia.pkl')
+    return joblib.load(modelo_path)
+
+try:
+    model = cargar_modelo()
+    
+    #contorles de usuario
+    col_pre1, col_pre2, col_pre3 = st.columns(3)
+    
+    with col_pre1:
+        h = st.slider("Hora del día", 0, 23, 12)
+        temp = st.slider("Temperatura Exterior (°C)", 5, 35, 18)
+    
+    with col_pre2:
+        occ = st.slider("Nivel de Ocupación (%)", 0, 100, 50)
+        mes_n = st.selectbox("Mes", range(1, 13), index=9)
+        
+    with col_pre3:
+        dia_n = st.selectbox("Día de la semana", range(7), format_func=lambda x: ["Lun", "Mar", "Mie", "Jue", "Vie", "Sab", "Dom"][x])
+
+    # predicción
+    input_data = pd.DataFrame([[h, dia_n, mes_n, occ, temp]], 
+                              columns=['hora', 'dia_semana', 'mes', 'ocupacion_pct', 'temperatura_exterior_c'])
+    
+    prediccion = model.predict(input_data)[0]
+
+    # visualización de resultado
+    st.subheader(f"Resultado de la Predicción: {prediccion:.2f} kWh")
+    
+    # Comparación con promedio real
+    st.info(f"Este valor representa el consumo estimado para la configuración seleccionada.")
+
+except Exception as e:
+    st.warning("El modelo de predicción se está cargando o no se encuentra en la carpeta /modelos.")
